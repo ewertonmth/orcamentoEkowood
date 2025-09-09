@@ -1,133 +1,63 @@
 <?php
 session_start();
-
 $error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome        = trim($_POST['nome'] ?? '');
-    $cnpj        = trim($_POST['cnpj'] ?? '');
-    $endereco    = trim($_POST['endereco'] ?? '');
-    $entrega     = trim($_POST['endereco_entrega'] ?? '');
-    $telefone    = trim($_POST['telefone'] ?? '');
-    $consultor   = trim($_POST['consultor'] ?? '');
-    $tipo_cliente = $_POST['tipo_cliente'] ?? '';
 
-    if (!$nome || !$cnpj || !$endereco || !$entrega || !$telefone || !$consultor || !$tipo_cliente) {
-        $error = "Por favor, preencha todos os campos.";
-    } else {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $cnpj = trim($_POST['cnpj'] ?? '');
+    $endereco = trim($_POST['endereco'] ?? '');
+
+    if ($nome && $cnpj && $endereco) {
         $_SESSION['cliente'] = [
-            'nome'              => $nome,
-            'cnpj'              => $cnpj,
-            'endereco'          => $endereco,
-            'endereco_entrega'  => $entrega,
-            'telefone'          => $telefone,
-            'consultor'         => $consultor,
-            'tipo'              => $tipo_cliente,
+            'nome' => $nome,
+            'cnpj' => $cnpj,
+            'endereco' => $endereco,
+            'endereco_entrega' => trim($_POST['endereco_entrega'] ?? ''),
+            'telefone' => trim($_POST['telefone'] ?? ''),
+            'consultor' => trim($_POST['consultor'] ?? ''),
+            'tipo' => trim($_POST['tipo'] ?? 'final'),
         ];
         header('Location: produtos.php');
         exit;
+    } else {
+        $error = 'Preencha corretamente os campos Nome, CNPJ e Endereço.';
     }
 }
+
+include 'templates/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Cadastro de Cliente</title>
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<?php if ($error): ?>
+  <div class="error-message"><?= htmlspecialchars($error) ?></div>
+<?php endif; ?>
 
-<style>
-body {
-  min-height: 100vh;
-  display: flex;
-  overflow-x: hidden;
-}
-.sidebar {
-  width: 250px;
-  background-color: #343a40;
-  min-height: 100vh;
-  padding-top: 1rem;
-}
-.sidebar a {
-  color: #ddd;
-  text-decoration: none;
-  display: block;
-  padding: 12px 20px;
-  border-left: 4px solid transparent;
-  transition: all 0.2s;
-}
-.sidebar a:hover, .sidebar a.active {
-  background-color: #495057;
-  color: #fff;
-  border-left-color: #0d6efd;
-}
-.sidebar .sidebar-header {
-  color: white;
-  font-weight: bold;
-  font-size: 1.3rem;
-  padding: 15px 20px;
-  border-bottom: 1px solid #495057;
-  margin-bottom: 1rem;
-}
-.main-content {
-  flex-grow: 1;
-  padding: 20px;
-  background-color: #f8f9fa;
-  min-height: 100vh;
-}
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    min-height: auto;
-  }
-  body {
-    flex-direction: column;
-  }
-}
-</style>
+<form method="POST" action="index.php" novalidate>
+  <label for="nome">Nome:</label>
+  <input type="text" id="nome" name="nome" class="form-control" value="<?= htmlspecialchars($_POST['nome'] ?? '') ?>" required placeholder="Digite o nome completo">
 
-<div class="sidebar">
-  <div class="sidebar-header">Orçamento</div>
-  <a href="index.php" class="<?= ($_SERVER['SCRIPT_NAME'] === '/index.php' ? 'active' : '') ?>">Cadastro Cliente</a>
-  <a href="produtos.php" class="<?= ($_SERVER['SCRIPT_NAME'] === '/produtos.php' ? 'active' : '') ?>">Adicionar Produtos</a>
-  <a href="lista_produtos.php" class="<?= ($_SERVER['SCRIPT_NAME'] === '/lista_produtos.php' ? 'active' : '') ?>">Lista de Produtos</a>
-  <a href="resumo.php" class="<?= ($_SERVER['SCRIPT_NAME'] === '/resumo.php' ? 'active' : '') ?>">Resumo</a>
-</div>
+  <label for="cnpj">CNPJ:</label>
+  <input type="text" id="cnpj" name="cnpj" class="form-control" value="<?= htmlspecialchars($_POST['cnpj'] ?? '') ?>" required placeholder="00.000.000/0000-00">
 
-<div class="main-content">
-  <!-- Aqui o conteúdo principal da página -->
-</div>
+  <label for="endereco">Endereço:</label>
+  <input type="text" id="endereco" name="endereco" class="form-control" value="<?= htmlspecialchars($_POST['endereco'] ?? '') ?>" required placeholder="Rua, número, bairro">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body class="bg-light">
-<div class="card">
-  <h2 class="mb-4 text-center">Cadastro do Cliente</h2>
-  <?php if ($error): ?>
-    <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-  <?php endif; ?>
-  <form method="POST" autocomplete="off" novalidate>
-    <input type="text" class="form-control" name="nome" placeholder="Nome do Cliente" value="<?= htmlspecialchars($_POST['nome'] ?? '') ?>" required />
+  <label for="endereco_entrega">Endereço de Entrega:</label>
+  <input type="text" id="endereco_entrega" name="endereco_entrega" class="form-control" value="<?= htmlspecialchars($_POST['endereco_entrega'] ?? '') ?>" placeholder="Local de entrega">
 
-    <input type="text" class="form-control" name="cnpj" placeholder="CNPJ" value="<?= htmlspecialchars($_POST['cnpj'] ?? '') ?>" required />
+  <label for="telefone">Telefone:</label>
+  <input type="tel" id="telefone" name="telefone" class="form-control" value="<?= htmlspecialchars($_POST['telefone'] ?? '') ?>" placeholder="(99) 99999-9999">
 
-    <input type="text" class="form-control" name="endereco" placeholder="Endereço" value="<?= htmlspecialchars($_POST['endereco'] ?? '') ?>" required />
+  <label for="consultor">Consultor:</label>
+  <input type="text" id="consultor" name="consultor" class="form-control" value="<?= htmlspecialchars($_POST['consultor'] ?? '') ?>" placeholder="Nome do consultor">
 
-    <input type="text" class="form-control" name="endereco_entrega" placeholder="Endereço de Entrega" value="<?= htmlspecialchars($_POST['endereco_entrega'] ?? '') ?>" required />
-
-    <input type="text" class="form-control" name="telefone" placeholder="Telefone" value="<?= htmlspecialchars($_POST['telefone'] ?? '') ?>" required />
-
-    <input type="text" class="form-control" name="consultor" placeholder="Nome do Consultor" value="<?= htmlspecialchars($_POST['consultor'] ?? '') ?>" required />
-
-    <select name="tipo_cliente" class="form-select" required>
-      <option value="">Tipo de Cliente</option>
-      <option value="final" <?= (isset($_POST['tipo_cliente']) && $_POST['tipo_cliente'] === 'final') ? 'selected' : '' ?>>Cliente Final</option>
-      <option value="revendedor" <?= (isset($_POST['tipo_cliente']) && $_POST['tipo_cliente'] === 'revendedor') ? 'selected' : '' ?>>Revendedor</option>
+  <label for="tipo_cliente">Tipo de Cliente:</label>
+  <div class="custom-select-wrapper">
+    <select id="tipo_cliente" name="tipo" class="custom-select">
+      <option value="final" <?= (($_POST['tipo'] ?? '') === 'final') ? 'selected' : '' ?>>Final</option>
+      <option value="revendedor" <?= (($_POST['tipo'] ?? '') === 'revendedor') ? 'selected' : '' ?>>Revendedor</option>
     </select>
+  </div>
 
-    <button type="submit" class="btn btn-primary w-100 mt-2">Avançar</button>
-  </form>
-</div>
-</body>
-</html>
+  <button type="submit" class="btn-submit">Salvar Cadastro</button>
+</form>
+
+<?php include 'templates/footer.php'; ?>

@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $tipo_cliente = $_SESSION['cliente']['tipo'] ?? 'final';
             if ($tipo_cliente === 'revendedor') {
-                $valor_total *= 1.08; // acréscimo de 8%
+                $valor_total = $valor_total + ($valor_total*0.08); // acréscimo de 8%
             }
 
             $_SESSION['produtos'][] = [
