@@ -233,3 +233,44 @@ label {
   background-color: #e5c93a;
   color: #000000;
 }
+
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.color-options input[type="radio"] {
+  display: none;
+}
+
+.color-label {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 214, 72, 0.4); /* borda amarela fraca */
+  display: inline-block;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  vertical-align: middle;
+}
+
+/* Hover aumenta borda e levanta a bolinha */
+.color-label:hover {
+  border-color: #ffd648; /* borda amarela forte */
+  box-shadow: 0 0 8px #ffd648bb;
+  transform: translateY(-6px) scale(1.15);
+  z-index: 10;
+}
+
+/* Quando selecionado, mantem destaque e efeito */
+.color-options input[type="radio"]:checked + .color-label {
+  border-color: #ffd648;
+  box-shadow: 0 0 10px #ffd648dd;
+  transform: translateY(-6px) scale(1.15);
+  z-index: 10;
+}
+
+
+

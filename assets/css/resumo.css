@@ -1,0 +1,120 @@
+.resumo-header {
+  color: #ffd648;
+  font-size: 2rem;
+  font-weight: 700;
+  border-bottom: 3px solid #ffd648;
+  padding-bottom: 10px;
+  margin-bottom: 26px;
+  letter-spacing: 0.5px;
+}
+
+.resumo-cliente {
+  color: #ffd648;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.table-resumo {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.table-resumo thead th {
+  background: #282828;
+  color: #ffd648;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  padding: 16px 20px;
+  text-align: center;
+  border-bottom: 2px solid #444;
+}
+
+.table-resumo tbody td {
+  background: #1c1c1c;
+  color: #ddd;
+  padding: 14px 20px;
+  font-size: 1rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-resumo tbody tr:hover td {
+  background: #333333;
+}
+
+.resumo-linha {
+  border-bottom: 1.7px solid #333;
+  margin: 20px 0 26px 0;
+}
+
+.resumo-totais {
+  background: rgba(34,34,34,0.87);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px #000d;
+  padding: 18px 22px 14px 22px;
+  margin: 18px 0 32px 0;
+  color: #ffd648;
+  font-size: 1.11rem;
+  font-weight: 600;
+  border: 1px solid #262626;
+}
+
+.resumo-totais span {
+  color: #45aaf2;
+  font-weight: 700;
+}
+
+.resumo-totais .valor-total {
+  color: #43e047;
+}
+
+.resumo-actions {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.resumo-actions .btn-action {
+  padding: 10px 28px;
+  font-size: 1.07rem;
+  font-weight: 600;
+  border-radius: 7px;
+  color: #fff;
+  background: #1976d2;
+  text-decoration: none;
+  box-shadow: 0 2px 12px #174a8333;
+  transition: background 0.2s, transform 0.2s;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  min-width: 140px;
+}
+
+.resumo-actions .btn-action.green {
+  background: #43a047;
+}
+
+.resumo-actions .btn-action.gray {
+  background: #505050;
+}
+
+.resumo-actions .btn-action:hover {
+  filter: brightness(1.15);
+  transform: translateY(-3px) scale(1.045);
+}
+
+.card {
+  background: #181818;
+  border-radius: 18px;
+  box-shadow: 0 5px 28px #000b;
+  padding: 36px 34px 28px 34px;
+  margin: 60px auto;
+  max-width: 600px;
+  color: #e0e0e0;
+}

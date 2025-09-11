@@ -8,7 +8,6 @@ session_start();
 $produtos = $_SESSION['produtos'] ?? [];
 $cliente = $_SESSION['cliente'] ?? [];
 
-// Monte o HTML exatamente como no orçamento da tela, por exemplo:
 $html = '
 <style>
     body{font-family:sans-serif;}
