@@ -1,0 +1,36 @@
+[
+    {
+    "nome": "Ripado 11cm",
+    "largura_perfil": 0.11,
+    "valor_unitário": 354.48,
+    "ipi_percentual": 3.25
+    },
+
+    {
+    "nome": "Ripado 20cm",
+    "largura_perfil": 0.20,
+    "valor_unitário": 372.90,
+    "ipi_percentual": 3.25
+    },
+
+    {
+    "nome": "Deck 14cm",
+    "largura_perfil": 0.14,
+    "valor_unitário": 530.07,
+    "ipi_percentual": 3.25
+    },
+
+    {
+    "nome": "Deck 15cm",
+    "largura_perfil": 0.15,
+    "valor_unitário": 530.07,
+    "ipi_percentual": 3.25
+    },
+
+    {
+    "nome": "Lambri 10cm",
+    "largura_perfil": 0.10,
+    "valor_unitário": 331.29,
+    "ipi_percentual": 3.25
+    }
+]

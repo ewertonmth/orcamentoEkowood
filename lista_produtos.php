@@ -1,16 +1,21 @@
 <?php
 session_start();
+
 // Inicializa a lista de produtos caso não exista
 if (!isset($_SESSION['produtos']) || !is_array($_SESSION['produtos'])) {
     $_SESSION['produtos'] = [];
 }
+
 // Remove produto via query string
 if (isset($_GET['remove'])) {
     unset($_SESSION['produtos'][$_GET['remove']]);
-    $_SESSION['produtos'] = array_values($_SESSION['produtos']);
+    $_SESSION['produtos'] = array_values($_SESSION['produtos']); // reindexa o array
     header('Location: lista_produtos.php');
     exit;
 }
+
+// ... código restante ...
+
 
 $coresPerfis = [
     ['nome' => 'OCÃ',     'hex' => '#6e7c2a'],
@@ -29,8 +34,10 @@ $coresPerfis = [
 $imagesBasePath = 'orcamento-php/assets/images/profiles/';
 $imagensPerfis = [
     'Ripado 11cm' => 'ripado_11cm.png',
+    'Ripado 20cm' => 'ripado_20cm.png',
     'Deck 14cm'   => 'deck_14cm.png',
-    'Brise'       => 'brise.png',
+    'Deck 15cm'   => 'deck_15cm.png',
+    'Lambri 10cm' => 'lambri_10cm.png',
 ];
 
 include 'templates/header.php';

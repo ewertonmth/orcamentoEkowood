@@ -1,12 +1,14 @@
 <?php
 session_start();
 
-$produtosDisponiveis = [
-    ['nome' => "Ripado 11cm", 'largura_perfil' => 0.11, 'valor_unitario' => 150, 'tipo' => 'Ripado'],
-    ['nome' => "Deck 14cm", 'largura_perfil' => 0.14, 'valor_unitario' => 180, 'tipo' => 'Deck'],
-    ['nome' => "Brise", 'largura_perfil' => 0.10, 'valor_unitario' => 200, 'tipo' => 'Brise'],
-];
+// Carregar dados do JSON de produtos
+if (!file_exists('produtos_independentes.json')) {
+    die('Arquivo JSON não encontrado!');
+}
+$produtosJson = file_get_contents('produtos_independentes.json');
+$produtosDisponiveis = json_decode($produtosJson, true);
 
+// Mantém array de cores fixo
 $coresPerfis = [
     ['nome' => 'OCÃ', 'hex' => '#6e7c2a'],
     ['nome' => 'WALNUT', 'hex' => '#7a2236'],
@@ -21,17 +23,9 @@ $coresPerfis = [
     ['nome' => 'TAUARI', 'hex' => '#ebc46f'],
 ];
 
-function getIpiPercentual($tipo) {
-    switch ($tipo) {
-        case 'Ripado':
-            return 3.25;
-        case 'Deck':
-            return 0.00;
-        case 'Brise':
-            return 3.25;
-        default:
-            return 0.00;
-    }
+// Inicializa array produtos da sessão se não existir
+if (!isset($_SESSION['produtos']) || !is_array($_SESSION['produtos'])) {
+    $_SESSION['produtos'] = [];
 }
 
 $error = '';
@@ -62,23 +56,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (!$error) {
-            if ($produto['tipo'] === 'Ripado') {
-                $valor_unitario = 354.48;
-                $ipi_percentual = 3.25;
-            } elseif ($produto['tipo'] === 'Deck') {
-                $valor_unitario = 530.07;
-                $ipi_percentual = 0.00;
-            } else {
-                $valor_unitario = $produto['valor_unitario'];
-                $ipi_percentual = getIpiPercentual($produto['tipo']);
-            }
+            $valor_unitario = $produto['valor_unitário'];
+            $ipi_percentual = $produto['ipi_percentual'];
 
             $ipi_decimal = ($ipi_percentual / 100);
-            $valor_total = ($valor_unitario * $ipi_decimal) * $area_total + ($valor_unitario * $area_total);
+            $valor_total = ($valor_unitario * $area_total) * (1 + $ipi_decimal);  
+
 
             $tipo_cliente = $_SESSION['cliente']['tipo'] ?? 'final';
             if ($tipo_cliente === 'revendedor') {
-                $valor_total = $valor_total + ($valor_total * 0.08);
+                $valor_total += $valor_total * 0.08;
             }
 
             // Busca o nome da cor pelo hex
@@ -105,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: lista_produtos.php');
             exit;
         }
-
     }
 }
 
