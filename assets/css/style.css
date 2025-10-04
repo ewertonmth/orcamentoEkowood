@@ -7,22 +7,42 @@ body {
   padding: 40px 0 60px 0;
 }
 
-nav.navbar-custom {
-  background-color: #000000;
+.navbar-custom {
+  background: #000;
   border: 2px solid #ffd648;
   border-radius: 16px;
-  max-width: 960px;
+  max-width: 969px;
   margin: 0 auto 40px auto;
   box-shadow: 0 4px 15px #ffd64880;
-  padding: 0 1rem;
+  padding: 0;
+}
+.logo-img {
+  max-height: 44px;
+  filter: drop-shadow(0 1px 4px #ffd64888);
 }
 
-.navbar-flex {
-  display: flex;
-  flex-direction: row;
+/* Mantém logo e menu afastados das extremidades */
+.navbar-logo { margin-left: 16px; }
+.navbar-buttons { margin-right: 16px; }
+
+.navbar-nav.flex-row {
+  flex-direction: row !important;
+  gap: 18px !important;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .navbar-nav.flex-row {
+    flex-direction: column !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+  }
+  .navbar-logo { margin-left: 8px !important; }
+  .navbar-buttons { margin-right: 8px !important; }
+  .logo-img { max-height: 30px; }
+}
+@media (max-width: 450px) {
+  .logo-img { max-height: 22px; }
 }
 
 .navbar-logo {
@@ -57,6 +77,16 @@ nav.navbar-custom {
   padding: 0;
   list-style: none;
 }
+
+.navbar-toggler:focus, .navbar-toggler:active {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='rgba(255,214,72,1)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+}
+
 
 .nav-link {
   color: #ffd648 !important;

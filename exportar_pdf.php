@@ -23,7 +23,7 @@ function buscarPerfil($nome, $array) {
     return null;
 }
 
-$imagePath = 'C:/xampp/htdocs/orcamento-php/assets/images/logo/ecowood.png';
+$imagePath = 'C:/xampp/htdocs/orcamento-php/assets/images/logo/ekowood_logo.png';
 $type = pathinfo($imagePath, PATHINFO_EXTENSION);
 $data = file_get_contents($imagePath);
 $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
@@ -32,51 +32,50 @@ $dompdf = new Dompdf();
 
 $html = '
 <style>
-@page { margin: 0; background-color: #000; }
-body { font-family: "Arial", "Roboto", sans-serif; background: #000 !important; margin: 0; color: #fff; padding: 0; }
-.header-pdf { background: #000; color: #fff; padding: 32px 36px 22px 36px; border-radius: 0; margin-bottom: 22px; box-shadow: none; }
-.header-logo { display: flex; align-items: center; gap: 24px; margin-bottom: 18px; justify-content: flex-start;}
-.header-logo img { height: 55px; }
-table.header-info { width: 100%; color: #e5e5e5; font-size: 14px; border-collapse: collapse; margin-bottom: 3px; background: #000; }
-table.header-info td { vertical-align: top; padding: 4px 10px; background: #000; }
-.section-title { font-weight: bold; color: #e8bc76; letter-spacing: 1.5px; font-size: 13px; }
-.line { border-bottom: 1px solid #444; margin: 8px 0 14px 0; }
-.products-table { width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 12px; margin-top: 23px; background: #000; }
-.products-table th { background: #191919; color: #fff !important; border-radius: 6px 6px 0 0; padding: 9px 6px; font-weight: bold; border: none; }
-.products-table tr:nth-child(even) td { background: #111; }
-.products-table td { border: 1px solid #292929; padding: 7px 6px; border-radius: 0 0 5px 5px; color: #fff !important; text-align: center; background: #000; }
-.profile-img { max-height: 38px; max-width: 70px; border-radius: 6px; border: 1px solid #333; }
-.circle-color { display:inline-block; width:16px; height:16px; border-radius:50%; border:1px solid #555; margin-right:5px; vertical-align:middle; background:#222; }
+@page { margin: 0; background-color: #fff; }
+body { font-family: "Arial", "Roboto", sans-serif; background: #fff !important; margin: 0; color: #111; padding: 0; }
+.header-pdf { background: #fff; color: #111; padding: 24px 30px 16px 30px; border-radius: 0; margin-bottom: 16px; box-shadow: none; }
+.header-logo { display: flex; align-itens: start; text-align: center; width: 100%; margin-bottom: 50px}
+.header-logo img { width: 200px; height: 50px; }
+table.header-info { width: 100%; color: #535353; font-size: 14px; border-collapse: collapse; margin-bottom: 2px; background: #fff; }
+table.header-info td { vertical-align: top; padding: 4px 10px; background: #fff; }
+.section-title { font-weight: bold; color: #000000ff; letter-spacing: 1.5px; font-size: 13px; }
+.line { border-bottom: 1px solid #e5e5e5; margin: 7px 0 12px 0; }
+.products-table { width: 100%; border-collapse: separate; border-spacing: 0 3px; font-size: 12px; margin-top: 18px; background: #fff; }
+.products-table th { background: #f5f5f5; color: #222 !important; border-radius: 4px 4px 0 0; padding: 7px 4px; font-weight: bold; border: none; }
+.products-table tr:nth-child(even) td { background: #fafafa; }
+.products-table td { border: 1px solid #e5e5e5; padding: 5px 4px; border-radius: 0 0 3px 3px; color: #333 !important; text-align: center; background: #fff; }
+.profile-img { max-height: 34px; max-width: 65px; border-radius: 4px; border: 1px solid #f1f1f1; }
+.circle-color { display:inline-block; width:14px; height:14px; border-radius:50%; border:1px solid #ccc; margin-right:5px; vertical-align:middle; background:#eee; }
 </style>
 
 <div class="header-pdf">
   <div class="header-logo"><img src="' . $base64 . '" alt="Logo" /></div>
   <table class="header-info">
-    <tr>
-      <td style="width:38%;">
-        <div class="section-title">CLIENTE</div>
-        <div style="margin-bottom:6px;">' . (empty($cliente['nome']) ? '<span style="color:#fff">-</span>' : htmlspecialchars($cliente['nome'])) . '</div>
-        <div class="section-title">OBSERVAÇÕES</div>
-        <div style="margin-bottom:6px;">' . (empty($cliente['observacoes']) ? '<span style="color:#fff">-</span>' : htmlspecialchars($cliente['observacoes'])) . '</div>
-        <div class="section-title">ENDEREÇO</div>
-        <div style="margin-bottom:6px;">' . (empty($cliente['endereco']) ? '<span style="color:#fff">-</span>' : htmlspecialchars($cliente['endereco'])) . '</div>
-        <div class="section-title">ENDEREÇO ENTREGA</div>
-        <div style="margin-bottom:6px;">' . (empty($cliente['enderecoentrega']) ? '<span style="color:#fff">-</span>' : htmlspecialchars($cliente['enderecoentrega'])) . '</div>
-        <div class="section-title">CONSULTOR</div>
-        <div>' . (empty($cliente['consultor']) ? '<span style="color:#fff">-</span>' : htmlspecialchars($cliente['consultor'])) . '</div>
-      </td>
-      <td style="width:9%;"></td>
-      <td style="width:33%;"></td>
-      <td style="width:20%;">
-        <div class="section-title">CONTATO</div>
-        <div style="margin-bottom:6px;">' . (empty($cliente['contato']) ? '<span style="color:#fff">-</span>' : htmlspecialchars($cliente['contato'])) . '</div>
-        <div class="section-title">CNPJ</div>
-        <div style="margin-bottom:6px;">' . (empty($cliente['cnpj']) ? '<span style="color:#fff">-</span>' : htmlspecialchars($cliente['cnpj'])) . '</div>
-        <div class="section-title">DATA</div>
-        <div>' . date('d/m/Y') . '</div>
-      </td>
-    </tr>
-  </table>
+  <tr>
+    <td style="width:50%; vertical-align:top;">
+      <div class="section-title">CLIENTE</div>
+      <div style="margin-bottom:6px;">' . (empty($cliente['nome']) ? '<span style="color:#000">-</span>' : htmlspecialchars($cliente['nome'])) . '</div>
+      <div class="section-title">OBSERVAÇÕES</div>
+      <div style="margin-bottom:6px;">' . (empty($cliente['observacoes']) ? '<span style="color:#000">-</span>' : htmlspecialchars($cliente['observacoes'])) . '</div>
+      <div class="section-title">ENDEREÇO</div>
+      <div style="margin-bottom:6px;">' . (empty($cliente['endereco']) ? '<span style="color:#000">-</span>' : htmlspecialchars($cliente['endereco'])) . '</div>
+      <div class="section-title">ENDEREÇO ENTREGA</div>
+      <div style="margin-bottom:6px;">' . (empty($cliente['enderecoentrega']) ? '<span style="color:#000">-</span>' : htmlspecialchars($cliente['enderecoentrega'])) . '</div>
+      <div class="section-title">CONSULTOR</div>
+      <div>' . (empty($cliente['consultor']) ? '<span style="color:#000">-</span>' : htmlspecialchars($cliente['consultor'])) . '</div>
+    </td>
+    <td style="width:50%; vertical-align:top;">
+      <div class="section-title">CONTATO</div>
+      <div style="margin-bottom:6px;">' . (empty($cliente['contato']) ? '<span style="color:#000">-</span>' : htmlspecialchars($cliente['contato'])) . '</div>
+      <div class="section-title">CNPJ</div>
+      <div style="margin-bottom:6px;">' . (empty($cliente['cnpj']) ? '<span style="color:#000">-</span>' : htmlspecialchars($cliente['cnpj'])) . '</div>
+      <div class="section-title">DATA</div>
+      <div style="margin-bottom:6px;">' . date('d/m/Y') . '</div>
+    </td>
+  </tr>
+</table>
+
   <div class="line"></div>
   <table class="products-table">
     <thead>
